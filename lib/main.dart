@@ -1,18 +1,19 @@
-import 'core/controllers/langs/app_language.dart';
-import 'core/controllers/network/network_controller.dart';
-import 'core/controllers/utils/utils_logic.dart';
-import 'core/theme/app_theme.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'core/injection/injection.dart';
-import 'core/controllers/langs/translation.dart';
-import 'core/usecases/constants.dart';
-import 'core/usecases/generateMaterialColor.dart';
-import 'core/util/hive_utils.dart';
-import 'core/widget_helper/splash_app.dart';
 import 'features/login/presentation/pages/login_page.dart';
+import 'core/controllers/network/network_controller.dart';
+import 'core/controllers/langs/app_language.dart';
+import 'core/usecases/generateMaterialColor.dart';
+import 'core/controllers/langs/translation.dart';
+import 'core/controllers/utils/utils_logic.dart';
+import 'core/widget_helper/splash_app.dart';
+import 'package:flutter/material.dart';
+import 'core/injection/injection.dart';
+import 'package:flutter/services.dart';
+import 'core/usecases/constants.dart';
+import 'core/theme/app_theme.dart';
+import 'core/util/hive_utils.dart';
+import 'package:get/get.dart';
+
 
 
 void main() async {

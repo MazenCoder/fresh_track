@@ -53,70 +53,7 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: backgroundColor,
-      height: Get.height,
-      width: Get.width,
-      child: Stack(
-        children: [
-          Positioned(
-            left: -120,
-            top: -140,
-            child: Container(
-              height: Get.width,
-              width: Get.width,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      primaryColor,
-                      primaryColor.withOpacity(0.55),
-                      primaryColor.withOpacity(0),
-                      Colors.transparent,
-                    ],
-                  )
-              ),
-            ),
-          ),
-          Positioned(
-            right: -120,
-            bottom: -140,
-            child: Container(
-              height: Get.width /1.2,
-              width: Get.width /1.2,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomRight,
-                    end: Alignment.topLeft,
-                    stops: const [
-                      0.3,
-                      0.7,
-                      0.8,
-                      0.9,
-                    ],
-                    colors: [
-                      greenColor.withOpacity(.8),
-                      greenColor.withOpacity(.1),
-                      greenColor.withOpacity(0),
-                      Colors.transparent,
-                    ],
-                  )
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(IMG.background),
-          fit: BoxFit.fill,
-        ),
-      ),
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
       child: Column(
         children: [
@@ -385,9 +322,9 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
                 Expanded(
                   child: ClipPath(
                     clipper: ClipperArrow(
-                      triangleHeight: 7,
-                      rectangleClipHeight: 7,
-                      edge: Edge.right
+                        triangleHeight: 7,
+                        rectangleClipHeight: 7,
+                        edge: Edge.right
                     ),
                     child: Container(
                       color: primaryColor,

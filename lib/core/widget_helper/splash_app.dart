@@ -29,7 +29,6 @@ class _SplashAppState extends State<SplashApp>
   late AnimationController _animationController;
   late Animation<double> _animation;
   late Image imageLogo;
-  late Image imageBg;
 
   @override
   void initState() {
@@ -41,7 +40,6 @@ class _SplashAppState extends State<SplashApp>
       width: Get.width / 2,
       height: Get.width / 2,
     );
-    imageBg = Image.asset(IMG.background);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _initServices();
     });
@@ -76,7 +74,6 @@ class _SplashAppState extends State<SplashApp>
   Future<void> _initServices() async {
     try {
       await networkLogic.getConnectionType();
-      // await Future.delayed(const Duration(seconds: 2));
       if (networkLogic.isConnected) {
         return Get.offAll(() => _home);
       } else {
@@ -95,7 +92,6 @@ class _SplashAppState extends State<SplashApp>
   @override
   void didChangeDependencies() {
     precacheImage(imageLogo.image, context);
-    precacheImage(imageLogo.image, context);
     super.didChangeDependencies();
   }
 
@@ -107,33 +103,25 @@ class _SplashAppState extends State<SplashApp>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return ResponsiveSafeArea(
-      builder: (_) => Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(IMG.background),
-            fit: BoxFit.fill,
-          ),
-        ),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                FadeTransition(
-                  opacity: _animation,
-                  child: RippleAnimation(
-                    repeat: true,
-                    color: primaryColor,
-                    minRadius: 38,
-                    ripplesCount: 25,
-                    child: ClipOval(child: imageLogo),
-                  ),
+      withBackground: true,
+      builder: (_) => Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              FadeTransition(
+                opacity: _animation,
+                child: RippleAnimation(
+                  repeat: true,
+                  color: primaryColor,
+                  minRadius: 38,
+                  ripplesCount: 25,
+                  child: ClipOval(child: imageLogo),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

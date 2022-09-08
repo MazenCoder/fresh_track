@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fresh_track/core/usecases/generateMaterialColor.dart';
 import 'package:get/get.dart';
 import '../usecases/constants.dart';
 import '../usecases/img.dart';
@@ -60,14 +61,11 @@ class _LoadingAppState extends State<LoadingApp>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return ResponsiveSafeArea(
+      withBackground: true,
       builder: (_) => Scaffold(
-        body: Container(
-          color: Colors.white,
-          width: Get.width,
-          height: Get.height,
-          alignment: Alignment.center,
+        backgroundColor: Colors.transparent,
+        body: Center(
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -78,14 +76,17 @@ class _LoadingAppState extends State<LoadingApp>
                   child: FadeTransition(
                     opacity: animation,
                     child: Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: Image.asset(
-                          IMG.logo,
-                          width: size.width / 2,
-                        )),
+                      padding: const EdgeInsets.all(18.0),
+                      child: Image.asset(
+                        IMG.logoTrans,
+                        width: Get.width / 2,
+                      ),
+                    ),
                   ),
                 ),
-                CircularProgressIndicator(),
+                CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(primaryColor)
+                ),
               ],
             ),
           ),

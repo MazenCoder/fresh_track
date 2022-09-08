@@ -9,7 +9,7 @@ class IMG {
   //! images
   static const String logo = '${path}logo.png';
   static const String logo2 = '${path}logo2.png';
-  static const String background = '${path}background.webp';
+  static const String logoTrans = '${path}logo-trans.png';
   static const String freshTrack = '${path}freshTrack.png';
   static const String freshTrackCircle = '${path}freshTrackCircle.png';
 

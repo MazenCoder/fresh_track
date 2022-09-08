@@ -1,13 +1,13 @@
 import '../../../../../core/widget_helper/responsive_safe_area.dart';
-import '../../../../../core/injection/injection.dart';
-import '../../../../../core/widget_helper/error_app.dart';
 import '../../../../../core/widget_helper/loading_app.dart';
+import '../../../../../core/widget_helper/error_app.dart';
+import '../../../../../core/injection/injection.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/login_initial_widget.dart';
 import '../widgets/login_loaded_widget.dart';
-import '../../data/models/login_params.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
+import '../bloc/login_bloc.dart';
+
 
 
 class LoginPage extends StatelessWidget {
@@ -16,8 +16,10 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveSafeArea(
+      withBackground: true,
       builder: (_) {
         return Scaffold(
+          backgroundColor: Colors.transparent,
           body: BlocProvider(
             create: (_) => getIt<LoginBloc>(),
             child: BlocBuilder<LoginBloc, LoginState>(
