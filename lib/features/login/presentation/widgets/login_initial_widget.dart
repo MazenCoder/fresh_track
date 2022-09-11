@@ -1,20 +1,19 @@
-import 'package:flutter/gestures.dart';
+import '../../../account/presentation/pages/create_account_page.dart';
+import 'package:after_layout/after_layout.dart';
+import 'package:fresh_track/core/usecases/constants.dart';
 import 'package:fresh_track/core/usecases/generateMaterialColor.dart';
 import 'package:fresh_track/core/mobx/mobx_app.dart';
 import '../../../../../core/usecases/boxes.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../core/usecases/keys.dart';
 import '../../../../core/widget_helper/button_clip.dart';
 import '../../../../core/widget_helper/clipper_arrow.dart';
 import '../../../../core/widget_helper/sliding_layer.dart';
-import '../../../account/presentation/pages/create_account_page.dart';
-import '../../../widgets/forgot_pass.dart';
 import '../../../../core/usecases/img.dart';
-import '../../data/models/login_params.dart';
-import '../bloc/login_bloc.dart';
+import '../../../widgets/forgot_pass.dart';
 
 
 
@@ -26,7 +25,8 @@ class LoginInitialWidget extends StatefulWidget {
   State<LoginInitialWidget> createState() => _LoginInitialWidgetState();
 }
 
-class _LoginInitialWidgetState extends State<LoginInitialWidget> {
+class _LoginInitialWidgetState extends State<LoginInitialWidget>
+    with AfterLayoutMixin<LoginInitialWidget> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
   final _form = GlobalKey<FormState>();
@@ -53,6 +53,11 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
     if (passwordCache != null) {
       _passController.text = passwordCache;
     }
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    utilsLogic.controller.forward(from: 1);
   }
 
   @override
@@ -225,16 +230,18 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
                           }
                           await box.put(Keys.remember, _remember);
                           if (!mounted) return;
-                          context.read<LoginBloc>().add(GetLoginEvent(
-                            params: LoginParams(
-                              email: _usernameController.text.trim(),
-                              password: _passController.text.trim(),
-                            ),
-                          ));
+                          utilsLogic.controller.reverse(from: 1);
+                          // context.read<LoginBloc>().add(GetLoginEvent(
+                          //   params: LoginParams(
+                          //     email: _usernameController.text.trim(),
+                          //     password: _passController.text.trim(),
+                          //   ),
+                          // ));
                         }
                       },
                       child: ButtonClip(
-                          text: 'access'.tr
+                        text: 'access'.tr,
+                        height: 40,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -312,70 +319,6 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
               ),
             ),
           ),
-        /*
-        Observer(
-          builder: (_) {
-            return InkWell(
-              onTap: () => mobxApp.setFlipped(!mobxApp.isFlipped),
-              child: AnimatedSwitcher(
-                reverseDuration: const Duration(seconds: 1),
-                duration: const Duration(seconds: 1),
-                switchInCurve: Curves.ease,
-                switchOutCurve: Curves.ease,
-                transitionBuilder: (widget, animation) {
-                  final flipAnimation = Tween(begin: pi, end: 0.0).animate(animation);
-                  return AnimatedBuilder(animation: flipAnimation, child: widget,
-                      builder: (context, widget) {
-                        final isUnder = (ValueKey(mobxApp.isFlipped) != widget?.key);
-                        final value = isUnder ? min(flipAnimation.value, pi/2) : flipAnimation.value;
-                        return Transform(
-                          transform: Matrix4.rotationX(value),
-                          alignment: Alignment.center,
-                          child: widget,
-                        );
-                      }
-                  );
-                },
-                child: mobxApp.isFlipped ? SizedBox(
-                  key: UniqueKey(),
-                  width: Get.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'track_shipment'.tr,
-                        style: Get.textTheme.bodyText2?.copyWith(
-                          color: primaryColor
-                        ),
-                      ),
-                      const SizedBox(width: 5.0),
-                      Expanded(
-                        child: ClipPath(
-                          clipper: ClipperArrow(
-                              triangleHeight: 7,
-                              rectangleClipHeight: 7,
-                              edge: Edge.right
-                          ),
-                          child: Container(
-                            color: primaryColor,
-                            height: 12,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ) : TextField(
-                  enabled: false,
-                  decoration: InputDecoration(
-                    // contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                    hintText: 'shipping_no'.tr,
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-        */
 
         const SizedBox(height: 16),
       ],

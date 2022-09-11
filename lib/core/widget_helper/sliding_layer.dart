@@ -36,6 +36,13 @@ class _SlidingLayerState extends State<SlidingLayer> with TickerProviderStateMix
         .animate(_controller);
   }
 
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(

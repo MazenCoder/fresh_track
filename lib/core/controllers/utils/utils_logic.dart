@@ -12,14 +12,23 @@ import 'utils_state.dart';
 
 
 
-class UtilsLogic extends GetxController {
+class UtilsLogic extends GetxController with GetSingleTickerProviderStateMixin {
   static UtilsLogic instance = Get.find();
   final state = UtilsState();
 
   final boxSettings = Boxes.boxSettings();
+  late AnimationController controller;
+  late Animation<double> animation;
+
 
   @override
   void onInit() {
+    controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+      value: 1,
+    );
+    animation = Tween<double>(begin: 10, end: 1).animate(controller);
     initVersion();
     getThemeStatus();
     super.onInit();

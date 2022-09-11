@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../core/controllers/utils/utils_logic.dart';
 import '../../core/mobx/mobx_app.dart';
@@ -15,8 +18,14 @@ import 'package:get/get.dart';
 import 'dart:math';
 
 
-class ForgotPass extends StatelessWidget {
-  ForgotPass({Key? key}) : super(key: key);
+class ForgotPass extends StatefulWidget {
+  const ForgotPass({Key? key}) : super(key: key);
+
+  @override
+  State<ForgotPass> createState() => _ForgotPassState();
+}
+
+class _ForgotPassState extends State<ForgotPass> with AfterLayoutMixin<ForgotPass> {
 
   final TextEditingController _emailController = TextEditingController();
   final _formEmail = GlobalKey<FormState>();
@@ -92,14 +101,14 @@ class ForgotPass extends StatelessWidget {
                                     const SizedBox(height: 20),
                                     InkWell(
                                       onTap: () {
-                                        FocusManager.instance.primaryFocus
-                                            ?.unfocus();
-                                        if (_formEmail.currentState
-                                            ?.validate() ??
-                                            false) {}
+                                        FocusManager.instance.primaryFocus?.unfocus();
+                                        if (_formEmail.currentState?.validate() ?? false) {
+                                          utilsLogic.controller.reverse(from: 1);
+                                        }
                                       },
                                       child: ButtonClip(
                                         text: 'next'.tr,
+                                        height: 40,
                                       ),
                                     ),
                                     const SizedBox(height: 20),
@@ -188,5 +197,10 @@ class ForgotPass extends StatelessWidget {
         );
       },
     );
+  }
+
+  @override
+  FutureOr<void> afterFirstLayout(BuildContext context) {
+    utilsLogic.controller.forward(from: 1);
   }
 }

@@ -1,3 +1,4 @@
+import '../../../../core/usecases/constants.dart';
 import '../../../../core/widget_helper/button_clip.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../../../core/mobx/mobx_app.dart';
@@ -257,13 +258,16 @@ class ChargerAccount extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             InkWell(
-              onTap:  () async {
+              onTap:  () {
+                utilsLogic.controller.forward(from: 1);
                 FocusManager.instance.primaryFocus?.unfocus();
                 if (_form.currentState?.validate() ?? false) {
-
+                  utilsLogic.controller.reverse(from: 1);
                 }
               },
-              child: ButtonClip(text: 'access'.tr),
+              child: ButtonClip(text: 'access'.tr,
+                height: 40,
+              ),
             ),
             const SizedBox(height: 20),
             Row(
