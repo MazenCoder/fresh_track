@@ -114,45 +114,47 @@ class AppTheme {
       disabledColor: Colors.grey,
     ),
     inputDecorationTheme: InputDecorationTheme(
-      labelStyle: Get.theme.textTheme.subtitle2,
-      suffixIconColor: Colors.grey,
+      labelStyle: Get.theme.textTheme.bodySmall,
       suffixStyle: Get.theme.textTheme.subtitle2,
-      hintStyle: Get.theme.textTheme.subtitle2,
+      hintStyle: Get.theme.textTheme.bodySmall,
+      suffixIconColor: Colors.grey,
       focusColor: primaryColor,
-      fillColor: primaryColor,
+      fillColor: const Color(0xFFF3F3F3),
+      filled: true,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(9),
         borderSide: const BorderSide(
-          color: Colors.grey,
-          width: 1.0,
+          style: BorderStyle.none,
+          width: 0,
         ),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(9),
         borderSide: const BorderSide(
-          color: Colors.grey,
-          width: 1.0,
+          style: BorderStyle.none,
+          width: 0,
         ),
       ),
       focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(9),
         borderSide: const BorderSide(
-          color: Colors.grey,
-          width: 1.0,
+          style: BorderStyle.none,
+          width: 0,
         ),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(9),
         borderSide: const BorderSide(
-          color: Colors.grey,
-          width: 1.0,
+          style: BorderStyle.none,
+          width: 0,
         ),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(15),
-        borderSide: BorderSide(
-          color: primaryColor,
-          width: 1.5,
+        borderRadius: BorderRadius.circular(9),
+        borderSide: const BorderSide(
+          style: BorderStyle.none,
+          width: 0,
         ),
       ),
     ),

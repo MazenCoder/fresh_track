@@ -13,5 +13,10 @@ class IMG {
   static const String freshTrack = '${path}freshTrack.png';
   static const String freshTrackCircle = '${path}freshTrackCircle.png';
 
+  //! Jsons
   static const String jsonError = '${pathJson}jsonError.json';
+
+  //! Icons
+  static const String chargerIcon = '${pathIcon}charger.png';
+  static const String carrierIcon = '${pathIcon}carrier.png';
 }

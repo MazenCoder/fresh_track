@@ -15,4 +15,20 @@ abstract class MobxAppBase with Store {
   void toggle(bool val) {
     obscureText = val;
   }
+
+  @observable
+  bool isFlipped = true;
+
+  @action
+  void setFlipped(bool val) {
+    isFlipped = val;
+  }
+
+  @observable
+  int currentIndex = 0;
+
+  @action
+  void onPageChanged(int index) {
+    currentIndex = index;
+  }
 }

@@ -10,6 +10,8 @@ import '../../usecases/enums.dart';
 import '../../usecases/keys.dart';
 import 'utils_state.dart';
 
+
+
 class UtilsLogic extends GetxController {
   static UtilsLogic instance = Get.find();
   final state = UtilsState();
@@ -148,5 +150,15 @@ class UtilsLogic extends GetxController {
         Permission.notification,
       ].request();
     }
+  }
+
+  void changePositionUp() {
+    state.offset = state.offset -= const Offset(1, 0);
+    update();
+  }
+
+  void changePositionDown() {
+    state.offset = state.offset += const Offset(1, 0);
+    update();
   }
 }

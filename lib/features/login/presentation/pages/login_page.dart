@@ -15,6 +15,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool keyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
     return ResponsiveSafeArea(
       withBackground: true,
       builder: (_) {
@@ -25,13 +26,17 @@ class LoginPage extends StatelessWidget {
             child: BlocBuilder<LoginBloc, LoginState>(
               builder: (context, state) {
                 if (state is LoginInitial) {
-                  return const LoginInitialWidget();
+                  return LoginInitialWidget(
+                    keyboardVisible: keyboardVisible,
+                  );
                 } else if (state is LoginLoading) {
                   return const LoadingApp();
                 } else if (state is LoginLoaded) {
                   return LoginLoadedWidget(entity: state.entity);
                 } else if (state is LoginError) {
-                  return const LoginInitialWidget();
+                  return LoginInitialWidget(
+                    keyboardVisible: keyboardVisible,
+                  );
                 } else {
                   return const ErrorApp();
                 }

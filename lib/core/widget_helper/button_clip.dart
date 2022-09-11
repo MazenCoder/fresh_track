@@ -22,7 +22,7 @@ class ButtonClip extends StatelessWidget {
             alignment: Alignment.center,
             child: Container(
               color: primaryColor,
-              height: 49.11,
+              height: 40,
               width: Get.width,
               child: ClipPath(
                 clipper: ClipperButton(),

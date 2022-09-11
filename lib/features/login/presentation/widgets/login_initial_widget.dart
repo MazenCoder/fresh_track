@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:fresh_track/core/usecases/generateMaterialColor.dart';
 import 'package:fresh_track/core/mobx/mobx_app.dart';
 import '../../../../../core/usecases/boxes.dart';
@@ -8,6 +9,8 @@ import 'package:get/get.dart';
 import '../../../../../core/usecases/keys.dart';
 import '../../../../core/widget_helper/button_clip.dart';
 import '../../../../core/widget_helper/clipper_arrow.dart';
+import '../../../../core/widget_helper/sliding_layer.dart';
+import '../../../account/presentation/pages/create_account_page.dart';
 import '../../../widgets/forgot_pass.dart';
 import '../../../../core/usecases/img.dart';
 import '../../data/models/login_params.dart';
@@ -16,7 +19,8 @@ import '../bloc/login_bloc.dart';
 
 
 class LoginInitialWidget extends StatefulWidget {
-  const LoginInitialWidget({super.key});
+  final bool keyboardVisible;
+  const LoginInitialWidget({super.key, required this.keyboardVisible});
 
   @override
   State<LoginInitialWidget> createState() => _LoginInitialWidgetState();
@@ -53,18 +57,20 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-      child: Column(
-        children: [
-          const SizedBox(height: 16),
-          Image.asset(
-            IMG.freshTrack,
-            height: 33,
-          ),
-          Expanded(
+    return Column(
+      children: [
+        const SizedBox(height: 16),
+        Image.asset(
+          IMG.freshTrack,
+          height: 33,
+        ),
+        const SizedBox(height: 16),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
             child: Center(
               child: SingleChildScrollView(
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -85,7 +91,7 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 16),
                     Form(
                       key: _form,
                       child: Column(
@@ -95,34 +101,7 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
                             controller: _usernameController,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
-                              hintText: 'username'.tr,
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: const BorderSide(
-                                  color: Colors.grey,
-                                  width: 1.0,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: const BorderSide(
-                                  width: 1.0,
-                                ),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: const BorderSide(
-                                  color: Colors.grey,
-                                  width: 1.0,
-                                ),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: const BorderSide(
-                                  color: Colors.grey,
-                                  width: 1.0,
-                                ),
-                              ),
+                              label: Text('username'.tr)
                             ),
                             validator: (val) {
                               final field = val ?? '';
@@ -133,7 +112,7 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
                               }
                             },
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 12),
                           Observer(
                             builder: (_) {
                               return TextFormField(
@@ -141,11 +120,7 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
                                 obscureText: mobxApp.obscureText,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  hintText: 'password'.tr,
-                                  hintStyle: const TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                                  label: Text('password'.tr),
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       mobxApp.obscureText
@@ -157,33 +132,6 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
                                       mobxApp.toggle(mobxApp.obscureText =
                                       !mobxApp.obscureText);
                                     },
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    borderSide: const BorderSide(
-                                      color: Colors.grey,
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    borderSide: const BorderSide(
-                                      color: Colors.grey,
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    borderSide: const BorderSide(
-                                      color: Colors.grey,
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    borderSide: const BorderSide(
-                                      width: 1.0,
-                                    ),
                                   ),
                                 ),
                                 validator: (val) {
@@ -232,7 +180,9 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
                                       const SizedBox(width: 4),
                                       Text(
                                         'remember_me'.tr,
-                                        style: Get.textTheme.bodyMedium,
+                                        style: Get.textTheme.bodyMedium?.copyWith(
+                                          color: const Color(0xFF149AD7)
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -242,7 +192,9 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
                                   onTap: () => Get.to(() => ForgotPass()),
                                   child: Text(
                                     'forgot_pass'.tr,
-                                    style: Get.textTheme.bodyMedium,
+                                    style: Get.textTheme.bodyMedium?.copyWith(
+                                        color: const Color(0xFF149AD7)
+                                    ),
                                   ),
                                 ),
                               ],
@@ -285,61 +237,148 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget> {
                           text: 'access'.tr
                       ),
                     ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        RichText(
+                          textAlign: TextAlign.start,
+                          text: TextSpan(
+                            text: 'new_user'.tr,
+                            style: Get.textTheme.bodyText2,
+                            children: <TextSpan>[
+                              const TextSpan(text: ' '),
+                              TextSpan(text: 'create_your_account'.tr,
+                                style: Get.textTheme.bodyText2?.copyWith(
+                                  color: const Color(0xFF149AD7)
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = ()=> Get.to(() => const CreateAccountPage())
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
             ),
           ),
-          /*
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'dont_have_account'.tr,
-                ),
-                const SizedBox(width: 5.0),
-                InkWell(
-                  onTap: () => Get.to(() => const SignUpPage()),
-                  child: Text(
-                    'register'.tr,
-                    style: Get.textTheme.bodyText1?.copyWith(
-                      color: const Color(0xFF149AD7),
+        ),
+
+        if (!widget.keyboardVisible)
+          SlidingLayer(
+            child1: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: SizedBox(
+                key: UniqueKey(),
+                width: Get.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'track_shipment'.tr,
+                      style: Get.textTheme.bodyText2?.copyWith(
+                          color: primaryColor
+                      ),
                     ),
-                  ),
-                )
-              ],
+                    const SizedBox(width: 5.0),
+                    Expanded(
+                      child: ClipPath(
+                        clipper: ClipperArrow(
+                            triangleHeight: 7,
+                            rectangleClipHeight: 7,
+                            edge: Edge.right
+                        ),
+                        child: Container(
+                          color: primaryColor,
+                          height: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            */
-          SizedBox(
-            width: Get.width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'track_shipment'.tr,
+            child2: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: TextField(
+                enabled: false,
+                decoration: InputDecoration(
+                  hintText: 'shipping_no'.tr,
                 ),
-                const SizedBox(width: 5.0),
-                Expanded(
-                  child: ClipPath(
-                    clipper: ClipperArrow(
-                        triangleHeight: 7,
-                        rectangleClipHeight: 7,
-                        edge: Edge.right
-                    ),
-                    child: Container(
-                      color: primaryColor,
-                      height: 12,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-          const SizedBox(height: 16),
-        ],
-      ),
+        /*
+        Observer(
+          builder: (_) {
+            return InkWell(
+              onTap: () => mobxApp.setFlipped(!mobxApp.isFlipped),
+              child: AnimatedSwitcher(
+                reverseDuration: const Duration(seconds: 1),
+                duration: const Duration(seconds: 1),
+                switchInCurve: Curves.ease,
+                switchOutCurve: Curves.ease,
+                transitionBuilder: (widget, animation) {
+                  final flipAnimation = Tween(begin: pi, end: 0.0).animate(animation);
+                  return AnimatedBuilder(animation: flipAnimation, child: widget,
+                      builder: (context, widget) {
+                        final isUnder = (ValueKey(mobxApp.isFlipped) != widget?.key);
+                        final value = isUnder ? min(flipAnimation.value, pi/2) : flipAnimation.value;
+                        return Transform(
+                          transform: Matrix4.rotationX(value),
+                          alignment: Alignment.center,
+                          child: widget,
+                        );
+                      }
+                  );
+                },
+                child: mobxApp.isFlipped ? SizedBox(
+                  key: UniqueKey(),
+                  width: Get.width,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'track_shipment'.tr,
+                        style: Get.textTheme.bodyText2?.copyWith(
+                          color: primaryColor
+                        ),
+                      ),
+                      const SizedBox(width: 5.0),
+                      Expanded(
+                        child: ClipPath(
+                          clipper: ClipperArrow(
+                              triangleHeight: 7,
+                              rectangleClipHeight: 7,
+                              edge: Edge.right
+                          ),
+                          child: Container(
+                            color: primaryColor,
+                            height: 12,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ) : TextField(
+                  enabled: false,
+                  decoration: InputDecoration(
+                    // contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                    hintText: 'shipping_no'.tr,
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+        */
+
+        const SizedBox(height: 16),
+      ],
     );
   }
 }
-
-
