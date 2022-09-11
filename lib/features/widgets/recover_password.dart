@@ -1,31 +1,33 @@
 import 'dart:async';
+
 import 'package:after_layout/after_layout.dart';
-import 'package:fresh_track/features/widgets/recover_password.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import '../../core/mobx/mobx_app.dart';
 import '../../core/usecases/constants.dart';
 import '../../core/usecases/generateMaterialColor.dart';
-import '../../core/widget_helper/clipper_arrow.dart';
-import '../../core/widget_helper/sliding_layer.dart';
-import '../account/presentation/pages/create_account_page.dart';
-import '../../core/widget_helper/responsive_safe_area.dart';
-import '../../core/widget_helper/button_clip.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import '../../core/usecases/img.dart';
-import 'package:get/get.dart';
-import 'dart:math';
+import '../../core/widget_helper/button_clip.dart';
+import '../../core/widget_helper/clipper_arrow.dart';
+import '../../core/widget_helper/responsive_safe_area.dart';
+import '../../core/widget_helper/sliding_layer.dart';
 
 
-class ForgotPass extends StatefulWidget {
-  const ForgotPass({Key? key}) : super(key: key);
+
+class RecoverPassword extends StatefulWidget {
+  const RecoverPassword({Key? key}) : super(key: key);
 
   @override
-  State<ForgotPass> createState() => _ForgotPassState();
+  State<RecoverPassword> createState() => _RecoverPasswordState();
 }
 
-class _ForgotPassState extends State<ForgotPass> with AfterLayoutMixin<ForgotPass> {
+class _RecoverPasswordState extends State<RecoverPassword>
+    with AfterLayoutMixin<RecoverPassword> {
 
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _codeRecoveryController = TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _retypeNewPasswordController = TextEditingController();
   final _formEmail = GlobalKey<FormState>();
   final MobxApp mobxApp = MobxApp();
 
@@ -41,6 +43,8 @@ class _ForgotPassState extends State<ForgotPass> with AfterLayoutMixin<ForgotPas
         return Scaffold(
           backgroundColor: Colors.transparent,
           body: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 5),
               Row(
@@ -60,6 +64,7 @@ class _ForgotPassState extends State<ForgotPass> with AfterLayoutMixin<ForgotPas
                     child: Form(
                       key: _formEmail,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
@@ -73,39 +78,80 @@ class _ForgotPassState extends State<ForgotPass> with AfterLayoutMixin<ForgotPas
                           Padding(
                             padding: const EdgeInsets.all(18),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(height: 8),
-                                Text('enter_your_email'.tr),
+                                Text('recovery_code'.tr),
+                                const SizedBox(height: 8),
+                                Text('resend_recovery_code'.tr,
+                                  textAlign: TextAlign.start,
+                                  style: Get.textTheme.bodyMedium?.copyWith(
+                                    color: const Color(0xFF149AD7),
+                                  ),
+                                ),
                                 const SizedBox(height: 16),
                                 Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
+                                    //! Code Recovery
                                     TextFormField(
-                                      controller: _emailController,
-                                      keyboardType: TextInputType.emailAddress,
+                                      controller: _codeRecoveryController,
+                                      keyboardType: TextInputType.text,
                                       decoration: InputDecoration(
-                                        // prefixIcon: const Icon(Icons.email),
-                                        hintText: 'email_fr'.tr,
+                                        label: Text('code_recovery'.tr),
                                       ),
                                       validator: (val) {
                                         final field = val ?? '';
                                         if (field.isEmpty) {
                                           return 'required_field'.tr;
-                                        } else if (!GetUtils.isEmail(field.trim())) {
-                                          return 'email_invalid'.tr;
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                    ),
+                                    const SizedBox(height: 16),
+
+                                    //! New Password
+                                    TextFormField(
+                                      controller: _newPasswordController,
+                                      keyboardType: TextInputType.text,
+                                      decoration: InputDecoration(
+                                        label: Text('new_password'.tr,),
+                                      ),
+                                      validator: (val) {
+                                        final field = val ?? '';
+                                        if (field.isEmpty) {
+                                          return 'required_field'.tr;
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                    ),
+                                    const SizedBox(height: 16),
+
+                                    //! Retype New Password
+                                    TextFormField(
+                                      controller: _retypeNewPasswordController,
+                                      keyboardType: TextInputType.text,
+                                      decoration: InputDecoration(
+                                        label: Text('retype_new_password'.tr),
+                                      ),
+                                      validator: (val) {
+                                        final field = val ?? '';
+                                        if (field.isEmpty) {
+                                          return 'required_field'.tr;
                                         } else {
                                           return null;
                                         }
                                       },
                                     ),
                                     const SizedBox(height: 20),
+
                                     InkWell(
                                       onTap: () async {
                                         FocusManager.instance.primaryFocus?.unfocus();
                                         if (_formEmail.currentState?.validate() ?? false) {
                                           utilsLogic.controller.reverse(from: 1);
-                                          await Future.delayed(const Duration(seconds: 1));
-                                          Get.to(() => const RecoverPassword());
                                         }
                                       },
                                       child: ButtonClip(
@@ -114,29 +160,6 @@ class _ForgotPassState extends State<ForgotPass> with AfterLayoutMixin<ForgotPas
                                       ),
                                     ),
                                     const SizedBox(height: 20),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        RichText(
-                                          textAlign: TextAlign.start,
-                                          text: TextSpan(
-                                            text: 'new_user'.tr,
-                                            style: Get.textTheme.bodyText2,
-                                            children: <TextSpan>[
-                                              const TextSpan(text: ' '),
-                                              TextSpan(text: 'create_your_account'.tr,
-                                                  style: Get.textTheme.bodyText2?.copyWith(
-                                                      color: const Color(0xFF149AD7)
-                                                  ),
-                                                  recognizer: TapGestureRecognizer()
-                                                    ..onTap = ()=> Get.to(() => const CreateAccountPage())
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    )
                                   ],
                                 ),
                               ],
@@ -206,4 +229,5 @@ class _ForgotPassState extends State<ForgotPass> with AfterLayoutMixin<ForgotPas
   FutureOr<void> afterFirstLayout(BuildContext context) {
     utilsLogic.controller.forward(from: 1);
   }
+
 }

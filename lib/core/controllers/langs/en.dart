@@ -61,5 +61,9 @@ const Map<String, String> en = {
   "city": "Ville",
   "ice": "ICE",
   "passwords_not_match": "Passwords ne correspondent pas",
-
+  "recovery_code": "Un code de récupération a été  envoyé à email@gmail.com",
+  "resend_recovery_code": "Renvoyer le code de récupération",
+  "code_recovery": "Code de récupération",
+  "new_password": "Nouveau password",
+  "retype_new_password": "Retaper votre nouveau password",
 };
