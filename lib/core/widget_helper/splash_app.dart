@@ -42,13 +42,7 @@ class _SplashAppState extends State<SplashApp> {
     try {
       await networkLogic.getConnectionType();
       await Future.delayed(const Duration(seconds: 2));
-      if (networkLogic.isConnected) {
-        return Get.offAll(() => _home);
-      } else {
-        return Get.offAll(() => ErrorApp(
-          message: 'error_connection'.tr,
-        ));
-      }
+      return Get.offAll(() => _home);
     } catch (e) {
       logger.e(e);
       return Get.offAll(() => ErrorApp(
