@@ -44,7 +44,7 @@ class ButtonClip extends StatelessWidget {
                     },
                   );
                 },
-              )
+              ),
             ),
           ),
           Align(

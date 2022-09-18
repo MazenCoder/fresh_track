@@ -4,15 +4,16 @@ import 'package:get/get.dart';
 class UtilsState {
 
   late Offset offset;
+  late bool reverse;
 
   RxBool isDarkTheme = false.obs;
-  ThemeMode get themeStateMode =>
-      isDarkTheme.value ? ThemeMode.dark : ThemeMode.light;
+  ThemeMode get themeStateMode => isDarkTheme.value ? ThemeMode.dark : ThemeMode.light;
 
   late String version;
 
   UtilsState() {
     version = '1.0.0';
     offset = Offset.zero;
+    reverse = false;
   }
 }

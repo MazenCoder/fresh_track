@@ -1,8 +1,9 @@
-import '../../domain/entities/login_entity.dart';
+import 'package:fresh_track/features/login/models/login_model.dart';
 import 'package:flutter/material.dart';
 
+
 class LoginLoadedWidget extends StatelessWidget {
-  final LoginEntity entity;
+  final LoginModel entity;
   const LoginLoadedWidget({Key? key, required this.entity}) : super(key: key);
 
   @override

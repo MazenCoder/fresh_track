@@ -1,6 +1,8 @@
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'features/login/presentation/pages/login_page.dart';
 import 'core/controllers/network/network_controller.dart';
+import 'features/account/controller/account_logic.dart';
+import 'features/login/controller/login_logic.dart';
 import 'core/controllers/langs/app_language.dart';
 import 'core/usecases/generateMaterialColor.dart';
 import 'core/controllers/langs/translation.dart';
@@ -23,7 +25,9 @@ void main() async {
   await HiveUtils.init();
   Get.put(NetworkLogic());
   Get.put(AppLanguage());
+  Get.put(LoginLogic());
   Get.put(UtilsLogic());
+  Get.put(AccountLogic());
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const MyApp());
 }

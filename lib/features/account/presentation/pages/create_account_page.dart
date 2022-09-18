@@ -1,5 +1,3 @@
-import 'package:after_layout/after_layout.dart';
-
 import '../../../../core/widget_helper/responsive_safe_area.dart';
 import '../../../../core/usecases/generateMaterialColor.dart';
 import '../../../../core/widget_helper/clipper_arrow.dart';
@@ -7,6 +5,7 @@ import '../../../../core/widget_helper/sliding_layer.dart';
 import '../../../../core/widget_helper/button_clip.dart';
 import 'package:fresh_track/core/mobx/mobx_app.dart';
 import '../../../../core/usecases/constants.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../../../core/usecases/img.dart';
 import 'package:flutter/material.dart';

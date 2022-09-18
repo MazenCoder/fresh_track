@@ -15,7 +15,7 @@ class LoginLoading extends LoginState {
 }
 
 class LoginLoaded extends LoginState {
-  final LoginEntity entity;
+  final LoginModel entity;
   const LoginLoaded({required this.entity});
 }
 

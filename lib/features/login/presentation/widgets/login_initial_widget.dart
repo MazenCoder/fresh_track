@@ -1,3 +1,4 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../account/presentation/pages/create_account_page.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:fresh_track/core/usecases/constants.dart';
@@ -14,6 +15,8 @@ import '../../../../core/widget_helper/clipper_arrow.dart';
 import '../../../../core/widget_helper/sliding_layer.dart';
 import '../../../../core/usecases/img.dart';
 import '../../../widgets/forgot_pass.dart';
+import '../../models/login_params.dart';
+import '../bloc/login_bloc.dart';
 
 
 
@@ -106,7 +109,7 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget>
                             controller: _usernameController,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
-                              label: Text('username'.tr)
+                                label: Text('username'.tr)
                             ),
                             validator: (val) {
                               final field = val ?? '';
@@ -186,7 +189,7 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget>
                                       Text(
                                         'remember_me'.tr,
                                         style: Get.textTheme.bodyMedium?.copyWith(
-                                          color: const Color(0xFF149AD7)
+                                            color: const Color(0xFF149AD7)
                                         ),
                                       ),
                                     ],
@@ -194,7 +197,7 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget>
                                 ),
                                 GestureDetector(
                                   behavior: HitTestBehavior.opaque,
-                                  onTap: () => Get.to(() => ForgotPass()),
+                                  onTap: () => Get.to(() => const ForgotPass()),
                                   child: Text(
                                     'forgot_pass'.tr,
                                     style: Get.textTheme.bodyMedium?.copyWith(
@@ -231,12 +234,14 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget>
                           await box.put(Keys.remember, _remember);
                           if (!mounted) return;
                           utilsLogic.controller.reverse(from: 1);
-                          // context.read<LoginBloc>().add(GetLoginEvent(
-                          //   params: LoginParams(
-                          //     email: _usernameController.text.trim(),
-                          //     password: _passController.text.trim(),
-                          //   ),
-                          // ));
+                          await Future.delayed(const Duration(seconds: 1));
+                          if (!mounted) return;
+                          context.read<LoginBloc>().add(GetLoginEvent(
+                            params: LoginParams(
+                              email: _usernameController.text.trim(),
+                              password: _passController.text.trim(),
+                            ),
+                          ));
                         }
                       },
                       child: ButtonClip(
@@ -257,11 +262,11 @@ class _LoginInitialWidgetState extends State<LoginInitialWidget>
                             children: <TextSpan>[
                               const TextSpan(text: ' '),
                               TextSpan(text: 'create_your_account'.tr,
-                                style: Get.textTheme.bodyText2?.copyWith(
-                                  color: const Color(0xFF149AD7)
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = ()=> Get.to(() => const CreateAccountPage())
+                                  style: Get.textTheme.bodyText2?.copyWith(
+                                      color: const Color(0xFF149AD7)
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = ()=> Get.to(() => const CreateAccountPage())
                               ),
                             ],
                           ),

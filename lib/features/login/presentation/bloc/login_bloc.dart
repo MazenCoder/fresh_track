@@ -1,27 +1,25 @@
+import 'package:fresh_track/features/login/models/login_model.dart';
+import 'package:fresh_track/core/usecases/constants.dart';
 import '../../../../../core/error/failures.dart';
-import '../../domain/entities/login_entity.dart';
-import '../../domain/usecases/get_login.dart';
-import '../../data/models/login_params.dart';
 import 'package:injectable/injectable.dart';
+import '../../models/login_params.dart';
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 import 'package:get/get.dart';
-import 'dart:async';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 @injectable
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final GetLogin getLogin;
-  LoginBloc({required this.getLogin}) : super(const LoginInitial()) {
+
+  LoginBloc() : super(const LoginInitial()) {
     on<LoginEvent>((event, emit) async {
       if (event is GetLoginEvent) {
         try {
           emit(const LoginLoading());
-          Either<Failure, LoginEntity> either =
-              await getLogin.call(event.params);
+          Either<Failure, LoginModel> either = await loginLogic.lgoin(event.params);
           either.fold((failure) {
             final msg = failure.props.elementAt(0) ?? 'error_wrong'.tr;
             emit(LoginError(message: '$msg'));

@@ -1,19 +1,20 @@
-import 'dart:async';
-import 'package:after_layout/after_layout.dart';
 import 'package:fresh_track/features/widgets/recover_password.dart';
-import '../../core/mobx/mobx_app.dart';
-import '../../core/usecases/constants.dart';
+import '../account/presentation/pages/create_account_page.dart';
+import '../../core/widget_helper/responsive_safe_area.dart';
 import '../../core/usecases/generateMaterialColor.dart';
 import '../../core/widget_helper/clipper_arrow.dart';
 import '../../core/widget_helper/sliding_layer.dart';
-import '../account/presentation/pages/create_account_page.dart';
-import '../../core/widget_helper/responsive_safe_area.dart';
 import '../../core/widget_helper/button_clip.dart';
+import 'package:after_layout/after_layout.dart';
+import '../../core/usecases/constants.dart';
+import '../../core/mobx/mobx_app.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../../core/usecases/img.dart';
 import 'package:get/get.dart';
+import 'dart:async';
 import 'dart:math';
+
 
 
 class ForgotPass extends StatefulWidget {
